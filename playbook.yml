@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  vars_prompt:
+    - name: du_username
+      prompt: "What is your DU username?"
+      private: no
+
+    - name: du_password
+      prompt: "What is your DU password?"
+  roles:
+    - create-instances
+
+- hosts: express_host
+  become: yes
+  gather_facts: false
+  vars:
+    express_targets: "{{ groups['express_targets'] }}"
+  roles:
+    - run-express

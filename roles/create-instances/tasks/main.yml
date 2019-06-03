@@ -1,0 +1,49 @@
+---
+# Show all available Openstack images
+##- name: Retrieve all available Openstack images
+##  os_image_facts:
+##  register: _os_images
+
+##- debug:
+##    msg: "{{ _os_images }}"
+
+# Gather facts about all available flavors
+##- name: Retrieve all OpenStack flavors
+##  os_flavor_facts:
+##  register: _os_flavors
+
+##- debug:
+##    msg: "{{ _os_flavors }}"
+
+- name: set DU facts
+  set_fact:
+    _du_username: "{{ du_username }}"
+    _du_password: "{{ du_password }}"
+
+# Create instance(s)
+- name: Launch instances
+  os_server:
+    name: "{{ prefix }}-{{ item.name }}"
+    state: present
+    key_name: "{{ item.key }}"
+    availability_zone: "{{ item.availability_zone }}"
+    security_groups: "{{ os_securitygroup_ids }}"
+    nics: "{{ item.nics }}"
+    image: "{{ item.image }}"
+    flavor: "{{ item.flavor }}"
+    wait: yes
+  with_items: "{{ servers }}"
+  register: "_os_servers"
+
+- debug:
+    msg: "{{ _os_servers.results }}"
+ 
+- name: Add instances to inventory
+  add_host:
+    name: "{{ item['openstack']['name'] }}"
+    groups: "{{ item['item']['meta']['group'] }}"
+    ansible_host: "{{ item.openstack.accessIPv4 }}"
+    ansible_ssh_private_key_file: ~/.ssh/imac_rsa
+    ansible_ssh_user: ubuntu
+  with_items: "{{ _os_servers.results }}"
+

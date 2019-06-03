@@ -1,0 +1,22 @@
+---
+- name: Download Platform9 Express git repo
+  git:
+    repo: https://github.com/platform9/express
+    dest: /opt/pf9-express
+
+- name: Drop inventory template
+  template:
+    src: templates/inventory_hosts.j2
+    dest: /opt/pf9-express/inventory/hosts
+    mode: '0644'
+
+- name: Drop management plane template
+  template:
+    src: templates/pf9-express.conf.j2
+    dest: /opt/pf9-express/pf9-express.conf
+    mode: '0644'
+
+- name: Install pre-requisites
+  command: "./pf9-express -i"
+  args:
+    chdir: /opt/pf9-express
