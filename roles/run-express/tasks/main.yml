@@ -16,7 +16,15 @@
     dest: /opt/pf9-express/pf9-express.conf
     mode: '0644'
 
+# (jdenton) This would be much better if we actually imported the role(s)
+# and executed tasks accordingly. Otherwise, we are at the mercy of
+# these scripts.
 - name: Install pre-requisites
   command: "./pf9-express -i"
+  args:
+    chdir: /opt/pf9-express
+
+- name: Install PMO
+  command: "./pf9-express -a pmo"
   args:
     chdir: /opt/pf9-express
