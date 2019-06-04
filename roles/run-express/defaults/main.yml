@@ -1,6 +1,6 @@
 ---
-du_tenant: service
-du_url: https://lab.cs.pf9.io
-du_username: admin@platform9.com
-du_region: KVM-US-SJC
+du_tenant: MyProject
+du_url: https://mydu.io
+du_username: admin@my.org
+du_region: MyRegion
 du_proxy: "-"

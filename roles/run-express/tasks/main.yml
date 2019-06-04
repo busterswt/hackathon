@@ -16,15 +16,50 @@
     dest: /opt/pf9-express/pf9-express.conf
     mode: '0644'
 
+- name: Create private key file
+  copy:
+    dest: "/root/.ssh/id_rsa"
+    content: "{{ hostvars['localhost'].keypair.key.private_key }}"
+    mode: '0600'
+
+- name: Configure TMUX
+  lineinfile:
+    path: /root/.tmux.conf
+    regexp: '^set-option'
+    line: 'set-option -g history-limit 20000'
+    owner: root
+    group: root
+    mode: '0644'
+    create: yes
+
+- name: Run pf9-express!
+  command: "{{ item }}"
+  args:
+    chdir: /opt/pf9-express
+  with_items:
+    - tmux new-session -d -s buildit
+    - tmux select-pane -t 0
+    - tmux send-keys "ulimit -n 10240" C-m
+    - tmux send-keys "./pf9-express -i; ./pf9-express -a pmo" C-m
+
+- name: Finished notice
+  debug:
+    msg: |
+      The PMO deploy is running. The check on the state of the deployment, login
+      to the {{ groups['express_host'][0] }} VM with key {{ _random_keyname }}
+      and attach to the 'buildit' tmux session using the 'tmux attach -t buildit'
+      command. Or you can wait and devices should (eventually) be registered
+      automatically in the UI.
+
 # (jdenton) This would be much better if we actually imported the role(s)
 # and executed tasks accordingly. Otherwise, we are at the mercy of
 # these scripts.
-- name: Install pre-requisites
-  command: "./pf9-express -i"
-  args:
-    chdir: /opt/pf9-express
+#- name: Install pre-requisites
+#  command: "./pf9-express -i"
+#  args:
+#    chdir: /opt/pf9-express
 
-- name: Install PMO
-  command: "./pf9-express -a pmo"
-  args:
-    chdir: /opt/pf9-express
+#- name: Install PMO
+#  command: "./pf9-express -a pmo"
+#  args:
+#    chdir: /opt/pf9-express
