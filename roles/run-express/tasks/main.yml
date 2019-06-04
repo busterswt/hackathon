@@ -5,11 +5,23 @@
     dest: /home/ubuntu/express/inventory/hosts
     mode: '0644'
 
+- name: [DEBUG] print inventory template
+  vars:
+    contents: "{{ lookup('file', '/home/ubuntu/express/inventory/hosts') }}"
+  debug:
+    msg: "{{ contents }}"
+
 - name: Drop management plane template
   template:
     src: templates/pf9-express.conf.j2
     dest: /home/ubuntu/express/pf9-express.conf
     mode: '0644'
+
+- name: [DEBUG] print p9 express template
+  vars:
+    contents: "{{ lookup('file', '/home/ubuntu/express/pf9-express.conf') }}"
+  debug:
+    msg: "{{ contents }}"
 
 - name: Create private key file
   copy:

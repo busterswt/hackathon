@@ -28,8 +28,11 @@
     name: "{{ _random_keyname }}"
   register: keypair
 
-- name: Show only private key to copy it in .pem
-  debug: var=keypair.key.private_key
+- name: [DEBUG] Show only private key to copy it in .pem
+  vars:
+    privatekey: "{{ keypair.key.private_key }}"
+  debug: 
+    msg: "{{ privatekey.split('\n') }}"
 
 - name: Copy private key to local file
   copy:
@@ -48,7 +51,6 @@
     nics: "{{ item.nics }}"
     image: "{{ item.image }}"
     flavor: "{{ item.flavor }}"
-#    wait: yes
   with_items: "{{ servers }}"
   register: "_os_servers"
 
@@ -62,7 +64,7 @@
   with_items: "{{ _os_servers.results }}"
 
 # Delete the keypair
-- name: delete nova keypair from the lab
-  os_keypair:
-    state: absent
-    name: "{{ _random_keyname }}"
+#- name: delete nova keypair from the lab
+#  os_keypair:
+#    state: absent
+#    name: "{{ _random_keyname }}"
