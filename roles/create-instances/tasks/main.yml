@@ -40,6 +40,22 @@
     content: "{{ keypair.key.private_key }}"
     mode: '0600'
 
+# Create a security group in specified tenant
+- name: Create a security group
+  os_security_group:
+    state: present
+    name: hackathon-secgroup
+
+# Create a security group rule in specified tenant
+- name: Create a security group rule to allow SSH
+  os_security_group:
+    state: present
+    security_group: hackathon-secgroup
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+
 # Create instance(s)
 - name: Launch instances
   os_server:
@@ -47,7 +63,7 @@
     state: present
     key_name: "{{ _random_keyname }}"
     availability_zone: "{{ item.availability_zone }}"
-    security_groups: "{{ os_securitygroup_ids }}"
+    security_groups: hackathon-secgroup
     nics: "{{ item.nics }}"
     image: "{{ item.image }}"
     flavor: "{{ item.flavor }}"
