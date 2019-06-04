@@ -1,12 +1,5 @@
 ---
 - hosts: localhost
-  vars_prompt:
-    - name: du_username
-      prompt: "What is your DU username?"
-      private: no
-
-    - name: du_password
-      prompt: "What is your DU password?"
   roles:
     - create-instances
 
