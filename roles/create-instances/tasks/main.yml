@@ -28,7 +28,7 @@
     name: "{{ _random_keyname }}"
   register: keypair
 
-- name: [DEBUG] Show only private key to copy it in .pem
+- name: Show only private key to copy it in .pem
   vars:
     privatekey: "{{ keypair.key.private_key }}"
   debug: 

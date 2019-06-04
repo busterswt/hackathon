@@ -5,7 +5,7 @@
     dest: /home/ubuntu/express/inventory/hosts
     mode: '0644'
 
-- name: [DEBUG] print inventory template
+- name: print inventory template
   vars:
     contents: "{{ lookup('file', '/home/ubuntu/express/inventory/hosts') }}"
   debug:
@@ -17,7 +17,7 @@
     dest: /home/ubuntu/express/pf9-express.conf
     mode: '0644'
 
-- name: [DEBUG] print p9 express template
+- name: print p9 express template
   vars:
     contents: "{{ lookup('file', '/home/ubuntu/express/pf9-express.conf') }}"
   debug:
