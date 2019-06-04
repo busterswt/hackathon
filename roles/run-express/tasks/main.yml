@@ -46,7 +46,7 @@
   debug:
     msg: |
       The PMO deploy is running. The check on the state of the deployment, login
-      to the {{ groups['express_host'][0] }} VM with key {{ _random_keyname }}
+      to the {{ groups['express_host'][0] }} VM with key {{ hostvars['localhost'].keypair.key.name }}
       and attach to the 'buildit' tmux session using the 'tmux attach -t buildit'
       command. Or you can wait and devices should (eventually) be registered
       automatically in the UI.

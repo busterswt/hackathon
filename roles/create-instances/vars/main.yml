@@ -3,7 +3,7 @@ prefix: myhack
 servers:
   - name: express
     image: ubuntu-16.04-server-cloudimg-amd64-disk1.img
-    flavor: m1.medium
+    flavor: "{{ os_flavor_id }}"
     key: imac_rsa
     nics: "net-id=1f9fd29a-7916-41ff-9fc8-cff777f63144"
     availability_zone: nova
@@ -11,7 +11,7 @@ servers:
       group: express_host
   - name: vm1
     image: ubuntu-16.04-server-cloudimg-amd64-disk1.img
-    flavor: m1.medium
+    flavor: "{{ os_flavor_id }}"
     key: imac_rsa
     nics: "net-id=1f9fd29a-7916-41ff-9fc8-cff777f63144"
     availability_zone: nova
@@ -19,7 +19,7 @@ servers:
       group: express_targets
   - name: vm2
     image: ubuntu-16.04-server-cloudimg-amd64-disk1.img
-    flavor: m1.medium
+    flavor: "{{ os_flavor_id }}"
     key: imac_rsa
     nics: "net-id=1f9fd29a-7916-41ff-9fc8-cff777f63144"
     availability_zone: nova
@@ -27,7 +27,7 @@ servers:
       group: express_targets
   - name: vm3
     image: ubuntu-16.04-server-cloudimg-amd64-disk1.img
-    flavor: m1.medium
+    flavor: "{{ os_flavor_id }}"
     key: imac_rsa
     nics: "net-id=1f9fd29a-7916-41ff-9fc8-cff777f63144"
     availability_zone: nova
