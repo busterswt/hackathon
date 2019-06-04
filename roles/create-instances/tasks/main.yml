@@ -62,7 +62,7 @@
   with_items: "{{ _os_servers.results }}"
 
 # Delete the keypair
-- name: delete nova keypair
+- name: delete nova keypair from the lab
   os_keypair:
     state: absent
     name: "{{ _random_keyname }}"

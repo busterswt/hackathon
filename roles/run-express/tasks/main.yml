@@ -13,7 +13,7 @@
 
 - name: Create private key file
   copy:
-    dest: "/root/.ssh/id_rsa"
+    dest: "~/.ssh/id_rsa"
     content: "{{ hostvars['localhost'].keypair.key.private_key }}"
     mode: '0600'
 
