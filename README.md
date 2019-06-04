@@ -9,12 +9,13 @@
 # How it works...
 
 These playbooks will deploy 1x pf9-express "deployer" VM and 3x compute VMs at the
-https://lab.cs.pf9.io endpoint. Using overrides, the playbooks will run pf9-express
+pf9 lab endpoint. Using overrides, the playbooks will run pf9-express
 on the "deployer" VM against the 3 compute VMs and attach them to the specified DU
 
 # Issues
 
-The lab servers are a bit long in the tooth, and the 900 second timeout for convergence
-causes the playbooks to fail. However, the machines will continue to converge.
+The lab servers are a little on the slow side, and the 900 second timeout for convergence
+causes the playbooks to fail. However, the machines will continue to converge but may not
+have all packages available.
 
 

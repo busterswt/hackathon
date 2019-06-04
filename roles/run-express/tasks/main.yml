@@ -1,4 +1,9 @@
 ---
+- name: Wait for connection
+  wait_for_connection:
+    delay: 10
+    timeout: 300
+
 - name: Download Platform9 Express git repo
   git:
     repo: https://github.com/platform9/express
@@ -32,6 +37,9 @@
     mode: '0644'
     create: yes
 
+# (jdenton) This would be much better if we actually imported the role(s)
+# and executed tasks accordingly. Otherwise, we are at the mercy of
+# these scripts.
 - name: Run pf9-express!
   command: "{{ item }}"
   args:
@@ -43,23 +51,12 @@
     - tmux send-keys "./pf9-express -i; ./pf9-express -a pmo" C-m
 
 - name: Finished notice
-  debug:
+  vars:
     msg: |
       The PMO deploy is running. The check on the state of the deployment, login
       to the {{ groups['express_host'][0] }} VM with key {{ hostvars['localhost'].keypair.key.name }}
       and attach to the 'buildit' tmux session using the 'tmux attach -t buildit'
       command. Or you can wait and devices should (eventually) be registered
       automatically in the UI.
-
-# (jdenton) This would be much better if we actually imported the role(s)
-# and executed tasks accordingly. Otherwise, we are at the mercy of
-# these scripts.
-#- name: Install pre-requisites
-#  command: "./pf9-express -i"
-#  args:
-#    chdir: /opt/pf9-express
-
-#- name: Install PMO
-#  command: "./pf9-express -a pmo"
-#  args:
-#    chdir: /opt/pf9-express
+  debug:
+    msg: "{{ msg.split('\n') }}"
