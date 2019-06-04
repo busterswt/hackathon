@@ -1,24 +1,14 @@
 ---
-- name: Wait for connection
-  wait_for_connection:
-    delay: 10
-    timeout: 300
-
-- name: Download Platform9 Express git repo
-  git:
-    repo: https://github.com/platform9/express
-    dest: /opt/pf9-express
-
 - name: Drop inventory template
   template:
     src: templates/inventory_hosts.j2
-    dest: /opt/pf9-express/inventory/hosts
+    dest: /home/ubuntu/express/inventory/hosts
     mode: '0644'
 
 - name: Drop management plane template
   template:
     src: templates/pf9-express.conf.j2
-    dest: /opt/pf9-express/pf9-express.conf
+    dest: /home/ubuntu/express/pf9-express.conf
     mode: '0644'
 
 - name: Create private key file
@@ -27,36 +17,12 @@
     content: "{{ hostvars['localhost'].keypair.key.private_key }}"
     mode: '0600'
 
-- name: Configure TMUX
-  lineinfile:
-    path: /root/.tmux.conf
-    regexp: '^set-option'
-    line: 'set-option -g history-limit 20000'
-    owner: root
-    group: root
-    mode: '0644'
-    create: yes
-
-# (jdenton) This would be much better if we actually imported the role(s)
-# and executed tasks accordingly. Otherwise, we are at the mercy of
-# these scripts.
-- name: Run pf9-express!
-  command: "{{ item }}"
+- name: Install express prereqs
   args:
-    chdir: /opt/pf9-express
-  with_items:
-    - tmux new-session -d -s buildit
-    - tmux select-pane -t 0
-    - tmux send-keys "ulimit -n 10240" C-m
-    - tmux send-keys "./pf9-express -i; ./pf9-express -a pmo" C-m
+    chdir: /home/ubuntu/express/
+  command: ./pf9-express -i
 
-- name: Finished notice
-  vars:
-    msg: |
-      The PMO deploy is running. The check on the state of the deployment, login
-      to the {{ groups['express_host'][0] }} VM with key {{ hostvars['localhost'].keypair.key.name }}
-      and attach to the 'buildit' tmux session using the 'tmux attach -t buildit'
-      command. Or you can wait and devices should (eventually) be registered
-      automatically in the UI.
-  debug:
-    msg: "{{ msg.split('\n') }}"
+- name: Install express
+  args:
+    chdir: /home/ubuntu/express/
+  command: ./pf9-express -a pmo
