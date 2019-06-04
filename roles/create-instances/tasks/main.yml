@@ -48,7 +48,7 @@
 
 # Create a security group rule in specified tenant
 - name: Create a security group rule to allow SSH
-  os_security_group:
+  os_security_group_rule:
     state: present
     security_group: hackathon-secgroup
     protocol: tcp
