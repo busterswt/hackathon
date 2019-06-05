@@ -56,7 +56,7 @@
 
 - name: Launch instances
   os_server:
-    name: "{{ du_name_vms }}-vm-{{ ansible_date_time.epoch | random }}"
+    name: "{{ du_name_vms }}-{{ item }}"
     state: present
     key_name: "{{ _random_keyname }}"
     availability_zone: "{{ default_availability_zone }}"
@@ -64,7 +64,7 @@
     nics: "{{ default_nics }}"
     image: "{{ default_image }}"
     flavor: "{{ default_flavor }}"
-  with_sequence: count={{ du_num_vms }}
+  with_sequence: count={{ du_num_vms }} format=vm%02x
   register: "_os_servers"
 
 - name: Add instances to inventory
