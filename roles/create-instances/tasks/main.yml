@@ -56,7 +56,7 @@
 
 - name: Launch instances
   os_server:
-    name: "{{ du_name_vms }}-vm-{{ du_num_vms | random }}"
+    name: "{{ du_name_vms }}-vm-{{ ansible_date_time.epoch | random }}"
     state: present
     key_name: "{{ _random_keyname }}"
     availability_zone: "{{ default_availability_zone }}"
