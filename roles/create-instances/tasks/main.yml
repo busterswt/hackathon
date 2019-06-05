@@ -1,20 +1,4 @@
 ---
-# Show all available Openstack images
-##- name: Retrieve all available Openstack images
-##  os_image_facts:
-##  register: _os_images
-
-##- debug:
-##    msg: "{{ _os_images }}"
-
-# Gather facts about all available flavors
-##- name: Retrieve all OpenStack flavors
-##  os_flavor_facts:
-##  register: _os_flavors
-
-##- debug:
-##    msg: "{{ _os_flavors }}"
-
 - name: set some facts
   set_fact:
     _du_username: "{{ du_username }}"
@@ -56,18 +40,31 @@
     port_range_max: 22
     remote_ip_prefix: 0.0.0.0/0
 
-# Create instance(s)
+# Create instance(s) (OLD)
+#- name: Launch instances
+#  os_server:
+#    name: "{{ prefix }}-{{ item.name }}"
+#    state: present
+#    key_name: "{{ _random_keyname }}"
+#    availability_zone: "{{ item.availability_zone }}"
+#    security_groups: hackathon-secgroup
+#    nics: "{{ item.nics }}"
+#    image: "{{ item.image }}"
+#    flavor: "{{ item.flavor }}"
+#  with_items: "{{ servers }}"
+#  register: "_os_servers"
+
 - name: Launch instances
   os_server:
-    name: "{{ prefix }}-{{ item.name }}"
+    name: "{{ du_name_vms }}-vm-{{ du_num_vms | random }}"
     state: present
     key_name: "{{ _random_keyname }}"
-    availability_zone: "{{ item.availability_zone }}"
+    availability_zone: "{{ default_availability_zone }}"
     security_groups: hackathon-secgroup
-    nics: "{{ item.nics }}"
-    image: "{{ item.image }}"
-    flavor: "{{ item.flavor }}"
-  with_items: "{{ servers }}"
+    nics: "{{ default_nics }}"
+    image: "{{ default_image }}"
+    flavor: "{{ default_flavor }}"
+  with_sequence: count={{ du_num_vms }}
   register: "_os_servers"
 
 - name: Add instances to inventory

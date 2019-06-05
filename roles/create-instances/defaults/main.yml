@@ -2,4 +2,7 @@
 os_image_id: ubuntu-16.04-server-cloudimg-amd64-disk1.img
 os_flavor_id: m1.medium
 os_network_ids: ['VMs-10.128.233.0_24-vLan-2064']
-os_securitygroup_ids: ['default','ALLOW_22']
+default_nics: "net-id=1f9fd29a-7916-41ff-9fc8-cff777f63144"
+default_availability_zone: nova
+default_image: ubuntu-16.04-server-cloudimg-amd64-disk1.img
+default_flavor: m1.medium
