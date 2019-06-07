@@ -1,0 +1,6 @@
+---
+- name: Clean up build instances
+  os_server:
+    name: "{{ du_name_vms }}-{{ item }}"
+    state: absent
+  with_sequence: count={{ du_num_vms }} format=vm%02x
