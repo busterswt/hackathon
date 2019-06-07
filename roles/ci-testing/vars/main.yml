@@ -1,0 +1,9 @@
+---
+auth:
+  - auth_url: "{{ DU_URL }}"
+    os_username: "{{ DU_USERNAME }}"
+    os_password: "{{ DU_PASSWORD }}"
+    os_tenant_name: "{{ DU_TENANT }}"
+    os_region_name: "{{ DU_REGION }}"
+    os_user_domain_name: default
+    os_project_domain_name: default

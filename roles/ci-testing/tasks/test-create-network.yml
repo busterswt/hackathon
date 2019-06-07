@@ -1,0 +1,20 @@
+---
+- name: Create a test network
+  os_network:
+    name: ci-test-network
+    state: present
+  register: network_result
+
+- debug:
+    msg: "{{ network_result }}"
+
+- name: Create a test subnet
+  os_subnet:
+    name: ci-test-subnet
+    network: ci-test-network
+    cidr: "192.168.44.0/24"
+    state: present
+  register: subnet_result
+
+- debug:
+    msg: "{{ subnet_result }}"
