@@ -11,8 +11,11 @@
 - name: Create a test subnet
   os_subnet:
     name: ci-test-subnet
-    network: ci-test-network
+    network_name: ci-test-network
     cidr: "192.168.44.0/24"
+    dns_nameservers:
+      - 8.8.8.8
+      - 8.8.4.4
     state: present
   register: subnet_result
 
