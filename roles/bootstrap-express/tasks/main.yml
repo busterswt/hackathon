@@ -23,13 +23,13 @@
   debug:
     msg: "{{ contents }}"
 
-- name: Create private key file
+- name: Create private key file on Jenkins worker
   copy:
     dest: "~/.ssh/id_rsa"
     content: "{{ hostvars['localhost'].keypair.key.private_key }}"
     mode: '0600'
 
-- name: Install express prereqs
+- name: Install express prereqs on Jenkins worker
   args:
     chdir: /home/ubuntu/express/
   command: ./pf9-express -i

@@ -1,14 +1,12 @@
 #jinja2: trim_blocks:False
 #
-# Hackathon 11!
+# Jenkins Pipeline Inventory
 ##
 ## Ansible Inventory
 ##
 [all]
 [all:vars]
 ansible_user=ubuntu
-ansible_sudo_pass=winterwonderland
-ansible_ssh_pass=winterwonderland
 ansible_ssh_private_key_file=~/.ssh/id_rsa
 
 ################################################################################################
@@ -26,8 +24,6 @@ hv01 bond_members='eth1' bond_sub_interfaces='[{"vlanid":"100","ip":"10.0.0.11",
 
 ## for multiple interface bond configuration
 hv02 bond_members='["eth1","eth2"]' bond_sub_interfaces='[{"vlanid":"100","ip":"10.0.0.12","mask":"255.255.255.0"}]'
-hv03 bond_members='["eth1","eth2"]' bond_sub_interfaces='[{"vlanid":"100","ip":"10.0.0.13","mask":"255.255.255.0"}]'
-cv01 bond_members='["eth1","eth2"]' bond_sub_interfaces='[{"vlanid":"100","ip":"10.0.0.15","mask":"255.255.255.0"}]'
 
 ################################################################################################
 ## OpenStack Groups
@@ -64,9 +60,6 @@ k8s-worker
 ##   - cluster_uuid
 [k8s-master]
 cv01 ansible_host=10.0.0.15
-cv02 ansible_host=10.0.0.16
-cv03 ansible_host=10.0.0.17
 
 [k8s-worker]
 cv04 ansible_host=10.0.0.18 cluster_uuid=7273706d-afd5-44ea-8fbf-901ceb6bef27
-cv05 ansible_host=10.0.0.19 cluster_uuid=7273706d-afd5-44ea-8fbf-901ceb6bef27
