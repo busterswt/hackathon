@@ -1,0 +1,7 @@
+---
+# This is the main testing task list.
+#
+# All new tests should have respective task files in tasks/ and should be
+# listed here.
+
+- import_tasks: test-create-network.yml
