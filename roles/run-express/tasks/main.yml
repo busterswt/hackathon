@@ -33,8 +33,3 @@
   args:
     chdir: /home/ubuntu/express/
   command: ./pf9-express -i
-
-- name: Install express
-  args:
-    chdir: /home/ubuntu/express/
-  command: ./pf9-express -a pmo
